@@ -1,0 +1,80 @@
+import os
+
+# 1. Hardcoded dictionary for stock prices (as requested)
+STOCK_PRICES = {
+    "AAPL": 180,
+    "TSLA": 250,
+    "GOOG": 150,
+    "AMZN": 175,
+    "MSFT": 420
+}
+
+def calculate_portfolio():
+    print("--- Stock Portfolio Tracker ---")
+    print("Available stocks and prices:", STOCK_PRICES)
+    print("-" * 30)
+    
+    portfolio = {}
+    total_value = 0
+    
+    # 2. Get user input for stock names and quantities
+    while True:
+        stock = input("Enter stock symbol (or type 'done' to finish): ").upper().strip()
+        if stock == 'DONE':
+            break
+            
+        if stock not in STOCK_PRICES:
+            print(f"Sorry, '{stock}' is not in our price database. Please try another one.")
+            continue
+            
+        try:
+            quantity = int(input(f"Enter number of shares for {stock}: "))
+            if quantity < 0:
+                print("Quantity cannot be negative.")
+                continue
+        except ValueError:
+            print("Invalid input. Please enter a whole number for quantity.")
+            continue
+            
+        # Add or update quantity in portfolio
+        portfolio[stock] = portfolio.get(stock, 0) + quantity
+
+    if not portfolio:
+        print("\nNo stocks added to the portfolio.")
+        return
+
+    # 3. Calculate and display total investment value
+    print("\n" + "="*35)
+    print(f"{'Stock':<10}{'Quantity':<10}{'Price ($)':<10}{'Total ($)':<10}")
+    print("="*35)
+    
+    report_lines = []
+    for stock, qty in portfolio.items():
+        price = STOCK_PRICES[stock]
+        subtotal = qty * price
+        total_value += subtotal
+        
+        line = f"{stock:<10}{qty:<10}{price:<10}{subtotal:<10}"
+        print(line)
+        report_lines.append(line)
+        
+    print("="*35)
+    print(f"Total Portfolio Value: ${total_value}")
+    print("="*35)
+
+    # 4. Optional: Save results to a .txt file
+    save_choice = input("\nDo you want to save these results to a file? (yes/no): ").lower().strip()
+    if save_choice in ['yes', 'y']:
+        filename = "portfolio_tracker_output.txt"
+        with open(filename, "w") as file:
+            file.write("--- STOCK PORTFOLIO REPORT ---\n")
+            file.write(f"{'Stock':<10}{'Quantity':<10}{'Price ($)':<10}{'Total ($)':<10}\n")
+            file.write("-" * 35 + "\n")
+            for line in report_lines:
+                file.write(line + "\n")
+            file.write("-" * 35 + "\n")
+            file.write(f"Total Portfolio Value: ${total_value}\n")
+        print(f"Results successfully saved to '{filename}'!")
+
+if __name__ == "__main__":
+    calculate_portfolio()
