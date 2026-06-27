@@ -1,1 +1,32 @@
 
+def start_chatbot():
+    print("--- Welcome to Basic Chatbot ---")
+    print("Type your message below. Type 'bye' to exit the chat.\n")
+    
+    while True:
+        # Get input from the user and normalize it (remove spaces and convert to lowercase)
+        user_input = input("You: ").strip().lower()
+        
+        # Check conditions based on user input
+        if user_input == "bye":
+            print("Chatbot: Goodbye! Have a great day!")
+            break
+            
+        elif user_input == "hello" or user_input == "hi":
+            print("Chatbot: Hi! How can I help you today?")
+            
+        elif user_input == "how are you":
+            print("Chatbot: I'm fine, thanks! I am an AI chatbot built with Python. How about you?")
+            
+        elif user_input == "what is your name":
+            print("Chatbot: My name is Basic Chatbot!")
+            
+        # Default response if the input doesn't match any pre-defined rules
+        else:
+            print("Chatbot: Sorry, I am a simple chatbot and I didn't quite catch that.")
+            print("         Could you try saying 'hello', 'how are you', or 'bye'?")
+            print("-" * 50)
+
+# Start running the chatbot program
+if __name__ == "__main__":
+    start_chatbot()
